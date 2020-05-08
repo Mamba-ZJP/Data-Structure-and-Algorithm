@@ -1,0 +1,20 @@
+model:
+sets:
+E/1..2/:c,x;
+F/1..3/:b;
+link(F,E):a;
+endsets 
+max = @sum(E(j) : c(j) * x(j));
+@for(F(i):(@sum(E(j) : a(i,j) * x(j))) < b(i));
+!@sum(E(i):a(1,i) * x(i)) < 360;
+!@sum(E(i):a(2,i) * x(i)) < 200;
+!@sum(E(i):a(3,i) * x(i)) < 300;
+@for(E:@gin(x));
+data:
+ c = 70,120;
+ a = 9,4,
+     4,5,
+     3,10;
+b = 360,200,300;
+enddata
+end
