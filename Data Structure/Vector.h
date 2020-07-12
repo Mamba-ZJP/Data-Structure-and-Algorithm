@@ -53,7 +53,7 @@ public:
     }
 
     void push_back(object & x){
-        if(theSize == theCapacity) reserve(2 * capacity + 1);
+        if(theSize == theCapacity) reserve(2 * theCapacity + 1);
         objects[theSize++] = std::move(x); //这里调用移动初始化，x可能就没用了
         // objects[theSize++] = x;
     }
