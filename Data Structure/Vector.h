@@ -20,6 +20,10 @@ public:
         vector copy = rhs; //拷贝初始化
         swap(*this,copy); //三次移动
         return *this;
+        
+        //当然这里可以写成拷贝构造那样，先析构原分配的内存，再动态分配新内存，然后再一个一个成员拷贝过来
+        //虽然在这里和swap相比，swap没啥优势，
+        // 但是如果vector的类数据成员特别多的话，这里的swap就节省了代码量
     }
 
     vector(vector && rhs):theSize{rhs.theSize}, theCapacity{rhs.theCapacity}, objects{rhs.objects}{
