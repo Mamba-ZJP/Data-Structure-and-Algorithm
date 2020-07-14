@@ -1,5 +1,5 @@
 #include<algorithm>
-
+#include<iostream>
 template<typename object>
 class vector{
 private:
@@ -14,13 +14,15 @@ public:
     objects{new object[rhs.theCapacity]}{
         for(int i = 0; i < theSize; ++i) 
             objects[i] = rhs.objects[i];
+        std::cout << "1" << std::endl;
     }
 
     vector & operator = (const vector & rhs){
         vector copy = rhs; //拷贝初始化
         swap(*this,copy); //三次移动
-        return *this;
-        
+        std::cout << "operator =" << std::endl;
+        return *this; //离开作用域后 copy被析构
+
         //当然这里可以写成拷贝构造那样，先析构原分配的内存，再动态分配新内存，然后再一个一个成员拷贝过来
         //虽然在这里和swap相比，swap没啥优势，
         // 但是如果vector的类数据成员特别多的话，这里的swap就节省了代码量
@@ -35,6 +37,9 @@ public:
         std::swap(objects,rhs.objects);
         std::swap(theSize,rhs.theSize);
         std::swap(theCapacity,rhs.theCapacity);
+        // objects = rhs.objects;
+        // theSize = rhs.theSize;
+        // theCapacity = rhs.theCapacity;
         return *this;
     }
 
@@ -58,13 +63,13 @@ public:
 
     void push_back(object & x){
         if(theSize == theCapacity) reserve(2 * theCapacity + 1);
-        objects[theSize++] = std::move(x); //这里调用移动初始化，x可能就没用了
+        objects[theSize++] = x; 
         // objects[theSize++] = x;
     }
 
     void push_back(object && x){
         if(theSize == theCapacity) reserve(2 * theCapacity + 1);
-        objects[theSize++] = std::move(x); //这里调用移动初始化，x可能就没用了
+        objects[theSize++] = std::move(x); //这里x是右值引用类型，也是一个在内存中的左值，move让它变为一个寄存器里的右值
         
     }
 
@@ -114,8 +119,8 @@ public:
     typedef const object * const_iterator;
 
     iterator begin(){
-        return & objects[0];
-        // return objects;
+        // return & objects[0];
+        return objects;
     }
 
     const_iterator begin() const{
