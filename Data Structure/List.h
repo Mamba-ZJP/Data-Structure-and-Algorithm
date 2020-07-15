@@ -8,7 +8,7 @@ private:
         object data;
         node * prev;
         node * next;
-        node() = default;
+       
 
         node(const object & d = object{}, node * p = nullptr, node * n = nullptr) //构造函数
         :data(d), prev(p), next(n) {}
@@ -78,15 +78,15 @@ private:
             iterator() = default;
 
             object & operator * () {
-                return cur->data;
+                return const_iterator::cur->data;
             }
 
-            const object & operator * () { //????
-                return cur->data;
+            const object & operator * ()const { //????
+                return const_iterator::cur->data;
             }
 
             iterator & operator ++ () {
-                cur = cur->next;
+                this->cur = this->cur->next;
                 return *this;
             }
 
@@ -94,6 +94,11 @@ private:
                 iterator old = *this;
                 ++(*this);
                 return old;
+            }
+
+            iterator & operator -- () {
+                this->cur = cur->prev;
+                return *this;
             }
     };
 
@@ -159,8 +164,10 @@ public:
         return { head->next };
     }
 
-    iterator end(){
-        return { tail };
+    iterator  end(){
+        return { tail }; //这里返回值不能是左值引用，左值引用不能绑右值
+        // iterator t{tail};
+        // return t; //不能返回本地变量的引用
     }
 
     const_iterator begin() const{
@@ -225,30 +232,30 @@ public:
     }
 
 
-    //这边迭代器为啥不用引用？？？？？
-    iterator insert(iterator itr, const object & x) {
+    //这边迭代器为啥不用引用？？？？？ 调用该函数的实参必须是左值，这里才能是引用
+    iterator & insert(iterator itr, const object & x) {
         node * p = itr->cur;
         ++theSize;
-        return { p->prev = it->prev->next = new node(x, p->prev, p) };
+        return { p->prev = p->prev->next = new node(x, p->prev, p) };
     }
 
-    iterator insert(iterator itr, object && x) {
+    iterator insert(iterator  itr, object && x) {
         node * p = itr.cur;
         ++theSize;
-        return { p->prev = it->prev->next = new node(std::move(x), p->prev, p) };
+        return { p->prev = p->prev->next = new node(std::move(x), p->prev, p) };
     }
 
-    iterator erase(iterator itr) {
+    iterator erase(iterator  itr) {
         --theSize;
         node * p = itr.cur;
         node * ret{p->next};
         p->prev->next = p->next;
         p->next->prev = p->prev;
         delete p;
-        return ret;
+        return ret;  //这里返回值也不能是引用
     }
 
-    iterator erase(iterator from, iterator to) {
+    iterator erase(iterator  from, iterator  to) {
         for(iterator itr = from; itr != to;) {
             itr = erase(itr);
         }
