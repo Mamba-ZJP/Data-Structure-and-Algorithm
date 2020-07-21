@@ -7,6 +7,8 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+
+//TC:O(n) MC:O(n)
 class Solution {
 public:
     vector<int> inorder;
@@ -25,6 +27,28 @@ public:
         if(rt == NULL) return;
         dfs(rt->left);
         inorder.push_back(rt->val);
+        dfs(rt->right);
+    }
+};
+
+//TC:O(n) MC:O(1)
+
+class Solution {
+public:
+    TreeNode * fa;
+    TreeNode* increasingBST(TreeNode* root) {
+        fa = new TreeNode{};
+        TreeNode* ans = fa;
+        dfs(root);
+        return ans->right;
+    }
+
+    void dfs(TreeNode* rt){
+        if(!rt) return;
+        dfs(rt->left);
+        rt->left = NULL;
+        fa->right = rt;
+        fa = rt;
         dfs(rt->right);
     }
 };
