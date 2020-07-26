@@ -15,6 +15,18 @@ public:
 
     int integerBreak(int n) {
         memset(memo, -1, sizeof memo);
-        return dfs(n);
+        // return dfs(n); //自顶向下
+
+        //自底向上
+        memo[1] = memo[2] = 1;
+        //memo[n]表示给定数字为n的最大值
+        for(int i = 3; i <= n; ++i){
+            int & t = memo[i];
+            for(int j = 1; j < i; ++j){
+                t = max(t, max(memo[i - j] * j, j * (i - j)));
+            }
+        }
+
+        return memo[n];
     }
 };
