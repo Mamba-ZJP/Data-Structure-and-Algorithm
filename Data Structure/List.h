@@ -34,28 +34,38 @@ private:
         protected: //迭代器必须是只有list可以初始化，不能随便拿个指针就初始化了
             friend class list<object>; //list类需要访问cur
             node * cur;
-            const_iterator(node * p):cur{p} {}
+            const list<object> *theList; //为了防止某个对象操作的时候传的是别的对象的迭代器，必须设置一个类成员用来检测是否指向的是当前对象的
+            const_iterator(node * p, const list<object> &lst):cur{p}, theList{lst} {}
         
         public:
             const_iterator():cur(nullptr) {}
 
             const object & operator *() {
+                if(cur == theList->head || cur == nullptr || cur == theList->tail)
+                    throw IteratorOutOfBoundsException{}; //自己定义一个抛出异常的函数
                 return cur->data;
             }
 
             const_iterator & operator -- () {
+                if(cur == theList->head || cur == nullptr) 
+                    throw IteratorOutOfBoundsException{};
+                    
                 cur = cur->prev;
                 return *this;
             }
 
             const_iterator  & operator ++ () { //前缀++
+                if(cur == nullptr || cur == theList->tail) 
+                    throw IteratorOutOfBoundsException{};
                 cur = cur->next;
                 return *this;
             }
 
             const_iterator operator ++ (int) { //后缀++要先返回，再移动的
+                if(cur == nullptr || cur == theList->tail) 
+                    throw IteratorOutOfBoundsException{};
                 const_iterator old = *this;
-                ++(*this);
+                ++(*this);//前缀++已经定义
                 return old;
             }
 
@@ -72,12 +82,13 @@ private:
     class iterator : public const_iterator {
         protected:
             friend class list<object>;
-            iterator(node * p): const_iterator{p} {}
+            iterator(node * p, const list<object> & lst): const_iterator{p, lst} {}
         
         public:
             iterator() = default;
 
             object & operator * () {
+                if(const_iterator::cur == nullptr || const_iterator::cur == const_iterator::) 
                 return const_iterator::cur->data;
             }
 
@@ -97,7 +108,7 @@ private:
             }
 
             iterator & operator -- () {
-                this->cur = cur->prev;
+                this->cur = this->cur->prev;
                 return *this;
             }
     };
@@ -234,6 +245,7 @@ public:
 
     //这边迭代器为啥不用引用？？？？？ 调用该函数的实参必须是左值，这里才能是引用
     iterator & insert(iterator itr, const object & x) {
+        if(this != itr.theList) throw IteratorMismatchException{ };
         node * p = itr->cur;
         ++theSize;
         return { p->prev = p->prev->next = new node(x, p->prev, p) };
@@ -245,7 +257,7 @@ public:
         return { p->prev = p->prev->next = new node(std::move(x), p->prev, p) };
     }
 
-    iterator erase(iterator  itr) {
+    iterator erase(iterator itr) {
         --theSize;
         node * p = itr.cur;
         node * ret{p->next};
@@ -255,7 +267,7 @@ public:
         return ret;  //这里返回值也不能是引用
     }
 
-    iterator erase(iterator  from, iterator  to) {
+    iterator erase(iterator from, iterator  to) {
         for(iterator itr = from; itr != to;) {
             itr = erase(itr);
         }
