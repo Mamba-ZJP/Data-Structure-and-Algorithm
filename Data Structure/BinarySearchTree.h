@@ -9,12 +9,20 @@ class BinarySearchTree{
             root = clone(rhs.root);
         }
 
-        BinarySearchTree(BinarySearchTree && rhs): root{nullptr}{
-            root = clone(rhs.root);
+        BinarySearchTree & operator = (const BinarySearchTree & rhs){
+            BinarySearchTree copy = rhs;
+            swap(*this, copy);
+            return *this;
         }
 
-        BinarySearchTree & operator = (const BinarySearchTree & rhs);
-        BinarySearchTree & operator = (BinarySearchTree && rhs);
+        BinarySearchTree(BinarySearchTree && rhs): root{rhs.root}{}
+
+        BinarySearchTree & operator = (BinarySearchTree && rhs){
+            std::swap(root, rhs.root);
+            makeEmpty(rhs.root);
+            return *this;
+        }
+
         ~BinarySearchTree(){
             makeEmpty();
         }
@@ -76,6 +84,12 @@ class BinarySearchTree{
         };
 
         node * root;
+
+        void swap(BinarySearchTree & lhs, BinarySearchTree & rhs){
+            BinarySearchTree temp = std::move(lhs);
+            lhs = std::move(rhs);
+            rhs = std::move(temp);
+        }
         
         void printTree(std::ostream & out, const node * t){
             if (t == nullptr)
@@ -151,6 +165,8 @@ class BinarySearchTree{
                 return;
             
             makeEmpty(root->left);
+            // std::cout << root->data << ' ';
+
             makeEmpty(root->right);
             delete root;
             root = nullptr;
@@ -187,7 +203,7 @@ class BinarySearchTree{
 
         node * clone(const node * t){
             if (t == nullptr) return nullptr;
-            return new node{t->data, clone(t->leftChild), clone(t->rightChild)};
+            return new node{t->data, clone(t->left), clone(t->right)};
         }
         
 };
