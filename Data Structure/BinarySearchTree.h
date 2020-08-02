@@ -20,13 +20,13 @@ class BinarySearchTree{
         }
 
         const comparable & findMin()const{
-            const node * & mi = findMin(root);
+            const node * mi = findMin(root);
             if (mi == nullptr) ;//单独处理
             else return mi->data;
         }
 
         const comparable & findMax()const{
-            const node * & mx = findMax(root);
+            const node * mx = findMax(root);
             if (mx == nullptr) ;//单独处理
             else return mx->data;
         }
@@ -42,7 +42,7 @@ class BinarySearchTree{
             return root == nullptr;
         }
 
-        void printTree(std::ostream & out = std::cout)const{
+        void printTree(std::ostream & out = std::cout){
             printTree(out, root);
         }
 
@@ -77,7 +77,7 @@ class BinarySearchTree{
 
         node * root;
         
-        void printTree(std::ostream & out, const node * & t){
+        void printTree(std::ostream & out, const node * t){
             if (t == nullptr)
                 return;
 
@@ -169,7 +169,7 @@ class BinarySearchTree{
             return root;
         }
 
-        const node * & findMin(const node * & t)const{ //最靠左的叶子结点就是最小的,返回结点会更好？
+        const node *  findMin(const node * t)const{ //最靠左的叶子结点就是最小的,返回结点会更好？
             if (t == nullptr) 
                 return nullptr;
             if (t->left == nullptr) 
@@ -177,7 +177,7 @@ class BinarySearchTree{
             return findMin(t->left);
         }
 
-        node * findMax(node * t)const{
+        const node * findMax(const node * t)const{
             if (t == nullptr)
                 return t;
             while (t->right != nullptr)
@@ -185,7 +185,7 @@ class BinarySearchTree{
             return t;
         }
 
-        node * clone(const node * & t){
+        node * clone(const node * t){
             if (t == nullptr) return nullptr;
             return new node{t->data, clone(t->leftChild), clone(t->rightChild)};
         }
