@@ -24,6 +24,7 @@ class AvlTree{
 
         Avlnode * root;
         
+        //这个函数很重要，因为树的叶子高度为0，所以nullptr为-1.
         int get_height(const Avlnode * t)const{
             return t == nullptr ? -1 : t->height;
         }
