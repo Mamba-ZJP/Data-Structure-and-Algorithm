@@ -6,9 +6,8 @@ public:
         int n = senate.size();
         int ban[2] = {0, 0};
         int race[2] = {0, 0};
-
         queue<char> Q;
-        int r = 0, d = 0;
+      
         for (const auto & c :senate){
             Q.push(c == 'R' ? 0 : 1);
             if (c == 'R') race[0]++;
