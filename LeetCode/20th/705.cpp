@@ -1,29 +1,56 @@
 class MyHashSet {
 private:
-    static const int MAXN = 1e6 + 5;
-    int hashTable[MAXN];
+    std::vector<std::list<int>> theLists;
+    static const int SIZE = 5000;
+    int currentSize;
+    int myhash(const int & rhs){
+        return rhs % SIZE;
+    } 
+    
+    void makeEmpty(){
+        for (auto & thelist: theLists)
+            thelist.clear();
+    }
+
+    void rehash(){
+        std::vector<std::list<int>> copy = theLists;
+        makeEmpty();
+        theLists.resize(2 * currentSize + 1);
+        
+        currentSize = 0;
+
+        for (const auto & thelist: copy)
+            for (const int & el: thelist)
+                add(el);
+    }
+
 public:
     /** Initialize your data structure here. */
-    // 1e6
     MyHashSet() {
-        memset(hashTable, -1, sizeof hashTable);
+        currentSize = 0;
+        theLists.resize(SIZE);
     }
     
     void add(int key) {
-        int pos = key % MAXN;
-        if (hashTable[pos] != -1) return;
-        hashTable[pos] = key;
+        auto & thelist = theLists[myhash(key)];
+        if (find(thelist.begin(), thelist.end(),key) != thelist.end())
+            return;
+        thelist.push_back(key);
+        if (currentSize++ > theLists.size()) rehash();
     }
     
     void remove(int key) {
-        int pos = key % MAXN;
-        hashTable[pos] = -1;
+        auto & thelist = theLists[myhash(key)];
+        auto pos = find(thelist.begin(), thelist.end(),key);
+        if (pos == thelist.end()) return;
+        thelist.erase(pos);
+        --currentSize;
     }
     
     /** Returns true if this set contains the specified element */
     bool contains(int key) {
-        int pos = key % MAXN;
-        return hashTable[pos] == key;
+        auto & thelist = theLists[myhash(key)];
+        return find(thelist.begin(), thelist.end(),key) != thelist.end();
     }
 };
 
