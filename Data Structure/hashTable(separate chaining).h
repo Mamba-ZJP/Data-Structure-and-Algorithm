@@ -52,7 +52,7 @@ class hashTable{
         }
 
         void makeEmpty(){
-            for (auot & thelist: theLists)
+            for (auto & thelist: theLists)
                 thelist.clear();
         }
 
@@ -60,9 +60,19 @@ class hashTable{
         std::vector<std::list<int>> theLists;
         int currentSize;
         void rehash(){
+            // 大小要变成两倍
+            std::vector<std::list<int>> copy = theLists;
+            makeEmpty();
+            theLists.resize(2 * currentSize + 1);
 
+            currentSize = 0;
+            
+            for (const auto & thelist: copy)
+                for (const int & el: thelist)
+                    insert(std::move(el));
+            
         }
-        
+
         size_t myhash(const hashObj & rhs)const;
 };
 
