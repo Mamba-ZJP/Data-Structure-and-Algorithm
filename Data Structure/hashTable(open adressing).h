@@ -51,10 +51,8 @@ class hashTable{
         }
 
     public:
-        hashTable(int size = 101): arr(size) {
+        hashTable(int size = 101): arr(size), currentSize{0} {}
              // resize的时候其实自动初始化了数组里的每个元素
-            currentSize = 0;
-        }
 
         bool contain(const hashObj & rhs)const {
             int curPos = findPos(rhs);
