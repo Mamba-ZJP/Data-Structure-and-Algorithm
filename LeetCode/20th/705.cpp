@@ -4,7 +4,7 @@ private:
     static const int SIZE = 5000;
     int currentSize;
     int myhash(const int & rhs){
-        return rhs % SIZE;
+        return rhs % theLists.size();
     } 
     
     void makeEmpty(){
@@ -41,7 +41,7 @@ public:
     
     void remove(int key) {
         auto & thelist = theLists[myhash(key)];
-        auto pos = find(thelist.begin(), thelist.end(),key);
+        auto pos = find(thelist.begin(), thelist.end(), key);
         if (pos == thelist.end()) return;
         thelist.erase(pos);
         --currentSize;
