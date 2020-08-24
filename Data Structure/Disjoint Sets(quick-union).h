@@ -18,7 +18,7 @@ class disjointSets{
             return find(fa[x]);
         }
 
-        void unionSets_heigth(int root1, int root2){ // 按高度求并
+        void unionSetsHeight(int root1, int root2){ // 按高度求并
             if (fa[root1] < fa[root2]) { // root1高
                 fa[root2] = root1;
             }
@@ -29,7 +29,7 @@ class disjointSets{
             }
         }
 
-        void unionSets_count(int root1, int root2){ // union by size
+        void unionSetsSize(int root1, int root2){ // union by size
             if (fa[root1] < fa[root2]) { // root1多，root2合并
                 fa[root1] += fa[root2];
                 fa[root2] = root1;
