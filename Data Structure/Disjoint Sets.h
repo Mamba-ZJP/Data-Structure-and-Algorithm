@@ -2,10 +2,10 @@
 
 class disjointSets{
     private:
-        vector<int> fa; // 这里就不写模板(template)了
+        std::vector<int> fa; // 这里就不写模板(template)了
 
     public:
-        explicit disjointSets(int size = 101): arr(size, -1) {}
+        explicit disjointSets(int size = 101): fa(size, -1) {}
         int find(int x) {
             if (fa[x] < 0) 
                 return x;
@@ -29,9 +29,9 @@ class disjointSets{
             }
         }
 
-        void unionSets_count(int root1, int root2){
+        void unionSets_count(int root1, int root2){ // union by size
             if (fa[root1] < fa[root2]) { // root1多，root2合并
-                fa[root1] -= fa[root2];
+                fa[root1] += fa[root2];
                 fa[root2] = root1;
             }
             else {
