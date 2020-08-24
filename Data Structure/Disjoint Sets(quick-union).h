@@ -35,7 +35,7 @@ class disjointSets{
                 fa[root2] = root1;
             }
             else {
-                fa[root2] -= fa[root1];
+                fa[root2] += fa[root1];
                 fa[root1] = root2;
             }
         }
