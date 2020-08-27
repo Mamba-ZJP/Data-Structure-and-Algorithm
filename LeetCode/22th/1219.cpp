@@ -1,24 +1,3 @@
-#include<iostream>
-#include<cstdio>
-#include<algorithm>
-#include<cstring>
-#include<vector>
-#include<string>
-#include<map>
-#include<set>
-#include<unordered_map>
-#include<unordered_set>
-#include<queue>
-#include<stack>
-#include<climits>
-#define x first
-#define y second
-#define MP make_pair
-using namespace std;
-typedef long long LL;
-typedef pair<int, int> PII;
-
-
 class Solution {
 private:
     static constexpr int N = 15 + 5;
@@ -51,33 +30,9 @@ public:
         for (int i = 0; i < n; ++i){
             for (int j = 0; j < m; ++j)
                 if (grid[i][j]) {
-                    memset(vis, 0, sizeof(vis));
                     ans = max(ans, dfs(i, j));
                 }
         }
         return ans;
     }
 };
-
-// int main(void){
-//     Solution a;
-//     vector<vector<int>> t = {
-//         {0,6,0},
-//         {5,8,7},
-//         {0,9,0},
-//     };
-//     a.getMaximumGold(t);
-// }
-
-// [
-// [0,0,0,0,0,0,32,0,0,20],  // 58 + 36 = 94 + 20 = 114 + 13 = 127
-// [0,  0, 2,0,0,0,0,40,0,32],
-// [13,20,36,0, 0,0,20,0,0,0],
-// [0, 31,27,0,19,0,0,25,18,0],
-// [0,0,0,0,0,0,0,0,0,0],
-// [0,0,0,0,0,0,0,18,0,6],
-// [0,0,0,25,0,0,0,0,0,0],
-// [0,0,0,21,0,30,0,0,0,0],
-// [19,10,0,0,34,0,2,0,0,27],
-// [0,0,0,0,0,34,0,0,0,0]
-// ]
