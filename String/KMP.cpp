@@ -27,7 +27,7 @@ vector<int> match(const string & text, const string & pattern){
     int n = pattern.length();
     vector<int> res;
     for (int i = 0, j = 0; i < n; ++i){
-        // j == 0 就要中止循环了, next[0] == -1
+        // j == 0 不需要再跳next数组了，主串需要和0位置再匹配，就要中止循环了, next[0] == -1
         // 找到一个可以匹配的位置，若找不到那么j为0，重新匹配
         while (j > 0 && text[i] != pattern[j]) j = next[j]; 
         // 找不到就要重头开始匹配
