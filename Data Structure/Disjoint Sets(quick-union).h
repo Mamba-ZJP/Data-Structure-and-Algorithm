@@ -17,7 +17,7 @@ class disjointSets{
                 return x;
             return find(fa[x]);
         }
-
+        // 注意！ 这里合并的时候参数是两个元素的集合的根，而非直接合并的两个元素
         void unionSetsHeight(int root1, int root2){ // 按高度求并
             if (fa[root1] < fa[root2]) { // root1高
                 fa[root2] = root1;
