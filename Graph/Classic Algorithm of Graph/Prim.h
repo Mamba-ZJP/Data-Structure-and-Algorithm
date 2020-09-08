@@ -32,6 +32,7 @@ class prim { // O(E log|V|)
             minHeap.push(node{1, 0}); // 点是从1开始的
 
             while (!minHeap.empty()) { // 要选 n-1 条边
+                // 贪心地选择还未选择的点里与 MST 中任意一点权值最小的边
                 node cur = minHeap.top(); minHeap.pop();
                 int u = cur.code;
                 if (vis[u]) continue;
