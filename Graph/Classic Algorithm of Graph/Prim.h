@@ -40,7 +40,7 @@ class prim { // O(E log|V|)
                 for (const PII &el: edges[u]){ // 更新
                     int v = el.first;
                     if (vis[v]) continue;
-                    if (dist[v] > el.second) {
+                    if (dist[v] > el.second) { // 当 u和 v 之间的边更短时，就要更新 v 连接生成树(MST)的最短边权值
                         dist[v] = el.second;
                         minHeap.push(node{v, dist[v]});
                     }
