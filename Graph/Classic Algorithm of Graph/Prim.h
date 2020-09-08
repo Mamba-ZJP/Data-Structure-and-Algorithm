@@ -19,7 +19,7 @@ class prim { // O(E log|V|)
         vector<vector<PII>> edges; // 有权无向图 邻接表
         priority_queue<node> minHeap;
         vector<int> vis;
-        vector<int> dist;
+        vector<int> dist; // 用一个数组 dis[i] 记录 i 距离 MST（任意一点）最近的距离（权值最小的边的权值）
         int n; // 点的个数
 
     public:
