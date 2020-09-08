@@ -1,6 +1,7 @@
 #include<vector>
 #include<queue>
 #include<climits>
+#include<cstdio>
 using namespace std;
 
 typedef pair<int, int> PII;
@@ -11,7 +12,7 @@ class prim { // O(E log|V|)
             int code, val;
             node(int c = 0, int v = 0): code(c), val(v) {}
             bool operator < (const node &rhs)const {
-                return this->val < rhs.val;
+                return this->val > rhs.val; // 小顶堆
             }
         };
 
@@ -24,11 +25,11 @@ class prim { // O(E log|V|)
     public:
         prim(vector<vector<PII>> e, int t): edges(move(e)), n(t) {} 
 
-        int slove() {
+        int solve() {
             int minValSum = 0;
-            vis.resize(n, 0); // 都设置为没访问过
-            dist.resize(n, INT_MAX);
-            minHeap.push(node{0, 0});
+            vis.resize(n + 5, 0); // 都设置为没访问过
+            dist.resize(n + 5, INT_MAX);
+            minHeap.push(node{1, 0}); // 点是从1开始的
 
             while (!minHeap.empty()) { // 要选 n-1 条边
                 node cur = minHeap.top(); minHeap.pop();
