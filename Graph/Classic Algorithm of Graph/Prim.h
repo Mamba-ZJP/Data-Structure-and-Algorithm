@@ -5,7 +5,8 @@
 using namespace std;
 
 typedef pair<int, int> PII;
-
+// prim 主要思想：一开始随机选个点u作为MST的根，然后更新和u连通的点v距离MST的最近距离: dist[u] = min(dist[u], Euv)。 
+// 下一轮选择边，就从剩下的点距离MST最近的边中选一条（剩下的点和MST中任意一点的权值最小的边）
 class prim { // O(E log|V|)
     private:
         struct node {
