@@ -1,4 +1,29 @@
 #define pub push_back
+// 法1：暴力枚举
+class Solution {
+private:
+    int count(int x) {
+        int cnt = 0;
+        while (x) {
+            if (x & 1) cnt++;
+            x >>= 1;
+        }
+        return cnt;
+    }
+    vector<string> ans;
+public:
+    vector<string> readBinaryWatch(int num) {
+        for (int i = 0; i < 12; i++) {
+            for (int j = 0; j < 60; j++) {
+                if (count(i) + count(j) == num)
+                    ans.pub(to_string(i) + ":" + (j < 10 ? "0" + to_string(j) : to_string(j)));
+            }
+        }
+        return ans;
+    }
+};
+
+// 法2：回溯
 class Solution {
 private:
     vector<string> ans;
