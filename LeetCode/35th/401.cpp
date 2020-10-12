@@ -24,6 +24,8 @@ public:
 };
 
 // 法2：回溯
+#define pub push_back
+#define tos to_string
 class Solution {
 private:
     vector<string> ans;
@@ -48,33 +50,29 @@ private:
     }
 public:
     vector<string> readBinaryWatch(int num) {
-        // 上面最多3个
+        // 上面最多4个
         for (int i = 0; i <= min(num, 3); i++) {
             int j = num - i;
             if (j > 5) continue;
             vector<int> hour, min;
             dfs1(i, 0, hour, 0);
             dfs2(j, 0, min, 0);
+            string t;
             if (min.size() && hour.size()) {
                 for (int &h: hour) {
                     for (int &m: min) {
-                        string t = to_string(h) + ":";
-                        if (m < 10) t += '0';
-                        t += to_string(m);
+                        t = tos(h) + ":" + (m < 10 ? "0" + tos(m) : tos(m));
                         ans.pub(t);
                     }
                 }
             } else if (min.empty()) {
                 for (int &h: hour) {
-                    string t = to_string(h);
-                    t += ":00";
+                    t = tos(h) + ":00";
                     ans.pub(t);
                 }
             } else if (hour.empty()) {
                 for (int &m: min) {
-                    string t = "0:";
-                    if (m < 10) t += '0';
-                    t += to_string(m);
+                    t = "0:" + (m < 10 ? "0" + tos(m) : tos(m));
                     ans.pub(t);
                 }
             } else {
